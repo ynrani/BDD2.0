@@ -1,0 +1,31 @@
+<acceptance-test-run title="Cyclos Login functionality." name="Cyclos Login functionality." description="" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="10631" timestamp="2017-03-22T16:48:37.523+05:30">
+  <user-story id="logintocyclos" name="LoginToCyclos" path="src/test/resources/features/LoginToCyclos/LoginToCyclos.feature"/>
+  <versions>
+    <version>Sprint_9</version>
+    <version>Release_4</version>
+  </versions>
+  <tags>
+    <tag name="LoginToCyclos" type="feature"/>
+    <tag name="Login to cyclos/Login to cyclos" type="story"/>
+    <tag name="Release_4" type="version"/>
+    <tag name="Sprint_9" type="version"/>
+  </tags>
+  <test-step result="SUCCESS" duration="8449">
+    <screenshots>
+      <screenshot image="283ee57a42c66606dd8fb12d61c173a2_NONE.png"/>
+    </screenshots>
+    <description>Given user is logged in with userid &quot;shashiranjan&quot; and password &quot;Capg1234&quot;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1264">
+    <screenshots>
+      <screenshot image="ad5c09353dbf9301abf9219e26a25506_NONE.png"/>
+    </screenshots>
+    <description>When user selects logout</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="716">
+    <screenshots>
+      <screenshot image="e8b3871ef9577031245e63f4623b26a6_NONE.png"/>
+    </screenshots>
+    <description>Then user should be back to login page</description>
+  </test-step>
+</acceptance-test-run>

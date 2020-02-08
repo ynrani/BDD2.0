@@ -1,0 +1,22 @@
+<acceptance-test-run title="Verify Send message functionality." name="Verify Send message functionality." description="" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="390" timestamp="2017-03-22T16:49:12.266+05:30">
+  <user-story id="messagetomember" name="MessageToMember" path="src/test/resources/features/MessageToMember/MessageToMember.feature"/>
+  <versions>
+    <version>Release_3</version>
+    <version>Sprint_8</version>
+  </versions>
+  <tags>
+    <tag name="MessageToMember" type="feature"/>
+    <tag name="Message to member/Message to member" type="story"/>
+    <tag name="Release_3" type="version"/>
+    <tag name="Sprint_8" type="version"/>
+  </tags>
+  <test-step result="SUCCESS" duration="218">
+    <description>Given I send a message to selected contact from contacts list with subject line and text body</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="0">
+    <description>When I Login with receiver credential and check messages</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then Message should be received to receiver</description>
+  </test-step>
+</acceptance-test-run>

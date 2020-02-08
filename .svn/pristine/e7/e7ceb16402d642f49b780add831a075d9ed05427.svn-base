@@ -1,0 +1,543 @@
+/******************************************************************************
+ *
+ *      ServiceControllerServlet.java
+ *
+ *      Capgemini Confidential
+ *      CG Source Materials
+ *      © Copyright Capgemini 2017
+ *
+ *
+ *******************************************************************************
+ *
+ *   Date....	WHO 	Description.........................................
+ *	15/02/17	NR		Modified to follow the Naming and coding standards
+ *
+ ******************************************************************************/
+
+package com.cg.bdd.servlet;
+
+import java.io.File;
+import java.io.IOException;
+
+import java.sql.SQLException;
+
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.cg.bdd.common.Common_Runtime;
+import com.cg.bdd.file.utils.FileUtility;
+import com.cg.bdd.main.SubFolderSearch;
+import com.cg.bdd.main.TblDAO;
+
+@SuppressWarnings("serial")
+public class SelectionControllerServlet extends HttpServlet {
+
+	public String ReleaseFinal;
+	public String IterationFinal;
+	public String FeatureFinal;
+	public String DemandStroyFinal;
+	
+	public void ProcessorRequest(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException,
+			SQLException {
+		System.out.println("ProcessorRequest Start");
+		Boolean flag = false;
+		String param = "";
+		String RelaseName = "";
+		String toolName = "";
+		TblDAO tblDAObj = new TblDAO();
+		//Common_Runtime cmrt = new Common_Runtime();
+		String txtfilePath = request.getParameter("txtId");
+		System.out.println("SelectionControllerServlet text file: "
+				+ txtfilePath);
+		//String foldername = request.getParameter("fId");
+		String foldername = request.getParameter("featureId");
+		String folderID = request.getParameter("folderID");
+		String almToolID = request.getParameter("almToolID");
+		String selectedALMTool = request.getParameter("SelectedALMTool");
+		System.out.println(folderID + " " + almToolID);
+		System.out.println("SelectedALMTool: " + selectedALMTool);
+		
+		//String foldername = request.getParameter("almToolID");
+		System.out.println("SelectionControllerServlet folder: " + foldername);
+		String filenames = request.getParameter("featureId1");
+		System.out.println("SelectionControllerServlet file: " + filenames);
+	//	String IterationName = request.getParameter("cId");
+		String IterationName = request.getParameter("releaseId");
+		String FeatureName = request.getParameter("releaseId1");
+		String DemandName = request.getParameter("releaseId2");
+		String DemandStoryDetails = request.getParameter("dsId");
+		//String almTool = request.getParameter("almToolID");
+		System.out.println("-----------------------------");
+		System.out.println("Iteration Name : " + IterationName);
+		System.out.println("Feature Name : " + FeatureName);
+		System.out.println("Demand Name : " + DemandName);
+		System.out.println("DemandStoryDetails: " + DemandStoryDetails);
+		System.out.println("-----------------------------");
+		if (almToolID != null && folderID != null) {
+			System.out.println("Selected the tool and features");
+		/*	String configurablePath = cmrt.m_featurePath;
+			System.out.println("configurablePath: " + configurablePath);
+
+			String resourcesFolder = configurablePath+ almToolID;
+			System.out.println("REsource FOlder path " + resourcesFolder);*/
+			if (almToolID != null)
+				almToolID = almToolID.trim();
+			SubFolderSearch subFold = new SubFolderSearch();
+			String folderList = subFold.findByfolder(almToolID);
+			response.setContentType("text/plain");
+			response.getWriter().write(folderList);
+		}
+		/*if (almTool != null) {
+			System.out.println("0) We got alm Tool");
+			// FileUtility fileObj = new FileUtility();
+
+			//String configurablePath = cmrt.m_filePath;
+			//System.out.println("configurablePath: " + configurablePath);
+
+			//String resourcesFolder = configurablePath;// + "\\features\\"	+ almTool;
+			if (almTool != null)
+				almTool = almTool.trim();
+			SubFolderSearch fld = new SubFolderSearch();
+			String folderList = fld.findByfolder(almTool);
+			response.setContentType("text/plain");
+			response.getWriter().write(folderList);
+		}*/
+		if (txtfilePath != null) {
+			System.out.println("1) We got txt File Path");
+			FileUtility fileObj = new FileUtility();
+
+			/*String configurablePath = cmrt.m_filePath;
+			System.out.println("configurablePath: " + configurablePath);
+
+			String resourcesFolder = configurablePath + "\\features\\";
+*/
+			String txtfile = fileObj.readFeatureFile(txtfilePath);
+			System.out.println("txtfile: " + txtfile);
+			response.setContentType("text/plain");
+			response.getWriter().write(txtfile);
+		}
+
+		if (foldername != null) {
+			System.out.println("2) We got foldername");
+			SubFolderSearch fld = new SubFolderSearch();
+			String FolderList = fld.findByfolder(foldername);
+			System.out.println("In Selection Controller..got folder list: "
+					+ FolderList);
+			response.setContentType("text/plain");
+			response.getWriter().write(FolderList);
+		}
+
+		if (filenames != null) {
+			System.out.println("3) We got file names");
+			/*if (filenames.contains("\\"))
+			{*/
+				String FileList = findByfolder1(filenames);
+				response.setContentType("text/plain");
+				response.getWriter().write(FileList);
+			/*}
+			else
+			{
+				SubFolderSearch fld= new SubFolderSearch();
+				String subFolders = fld.findByfolder(filenames);
+			}*/
+			// SubFolderSearch fld= new SubFolderSearch();
+			
+		}
+
+		// ******************************************************************Filter
+		/*// started
+		if (IterationName != null || FeatureName != null || DemandName != null) {
+			flag = true;
+			param = "release";
+		}*/
+
+		if (flag == false) {
+			RelaseName = request.getParameter("XId1");
+			IterationName = request.getParameter("XId2");
+			FeatureName = request.getParameter("XId3");
+			if (RelaseName != null && IterationName != null
+					&& FeatureName != null) {
+				flag = true;
+				param = "demand";
+				DemandName = "value";
+			}
+		}
+		if (flag == false) {
+			toolName = request.getParameter("almToolID");
+
+			if (toolName != null) {
+				flag = true;
+				param = "demand";
+				DemandName = "value";
+			}
+		}
+		if (flag == false) {
+			RelaseName = request.getParameter("iterationId");
+			FeatureName = request.getParameter("iterationId1");
+			DemandName = request.getParameter("iterationId2");
+
+			if (RelaseName != null || FeatureName != null || DemandName != null) {
+				flag = true;
+				param = "iteration";
+			}
+		}
+
+		if (flag == false) {
+			RelaseName = request.getParameter("featureId");
+			IterationName = request.getParameter("featureId1");
+			DemandName = request.getParameter("featureId2");
+
+			if (RelaseName != null || IterationName != null
+					|| DemandName != null) {
+				flag = true;
+				param = "feature";
+			}
+		}
+
+		if (flag == false) {
+			RelaseName = request.getParameter("demandId");
+			IterationName = request.getParameter("demandId1");
+			FeatureName = request.getParameter("demandId2");
+
+			if (RelaseName != null || IterationName != null
+					|| FeatureName != null) {
+				flag = true;
+				param = "demand";
+			}
+		}
+		// ******************************************************************Filter
+		// End
+		if (flag == false) {
+
+			if (DemandStoryDetails != null) {
+				flag = true;
+				param = "demand";
+			}
+		}
+
+		if (flag == true) {
+
+			if (DemandName != null) {
+				System.out.println("in elseif");
+
+				// TblDemandStoryDAONew daoFR = new TblDemandStoryDAONew();
+				String DList = tblDAObj.findByDemandStory("",RelaseName,
+						IterationName, FeatureName);
+				response.setContentType("text/plain");
+				response.getWriter().write(DList);
+			} else if (DemandStoryDetails != null) {
+				System.out.println("in elseif");
+				// TblDemandStoryDetailsDAONew daoFR = new
+				// TblDemandStoryDetailsDAONew();
+				String FRList = tblDAObj.findByDemandStoryDetails(
+						DemandStoryDetails, param);
+				response.setContentType("text/plain");
+				response.getWriter().write(FRList);
+			} else if (toolName != null) {
+				System.out.println("in elseif");
+				// TblFeatursDAONew daoFR = new TblFeatursDAONew();
+				String RelList = tblDAObj.findByRelease(FeatureName, param);
+				response.setContentType("text/plain");
+				response.getWriter().write(RelList);
+			} else if (FeatureName != null) {
+				System.out.println("in elseif");
+				// TblFeatursDAONew daoFR = new TblFeatursDAONew();
+				String FRList = tblDAObj.findByFeatures(FeatureName, param);
+				response.setContentType("text/plain");
+				response.getWriter().write(FRList);
+			} else if (IterationName != null) {
+				System.out.println("in elseif");
+				// TblIterationDAONew daoITR = new TblIterationDAONew();
+				String ItrList = tblDAObj.findByIteration(IterationName, param);
+				response.setContentType("text/plain");
+				response.getWriter().write(ItrList);
+			} else if (RelaseName != null) {
+				System.out.println("in elseif");
+				// TblReleaseDAONew daoR = new TblReleaseDAONew();
+				String ItrList = tblDAObj.AnyData(RelaseName, param);
+				response.setContentType("text/plain");
+				response.getWriter().write(ItrList);
+			} 
+		}
+		System.out.println("ProcessorRequest End");
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			
+			ProcessorRequest(request, response);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		/*try {
+			ProcessorRequest(request, response);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		postProcessor(request, response);
+		
+	}
+
+	public void postProcessor(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+try {
+	 
+			//Boolean flag = false;
+			TblDAO tblDAObj = new TblDAO();
+				
+				String fromPage = request.getParameter("fromPage");
+						System.out.println("fromPage " + fromPage);
+				
+				if (fromPage != null)
+				{
+					switch(fromPage)
+					{
+						case "OpenFile.jsp": 
+						{
+							String toolName = request.getParameter("almToolID");
+							//String folderName = request.getParameter("folderName");
+							String txtfilePath = request.getParameter("txtId");
+							
+							String folderName = request.getParameter("folderId");
+							String filenames = request.getParameter("featureId1");
+							
+							if (toolName != null && folderName != null)
+							{
+								toolName = toolName.trim();
+								folderName = folderName.trim();
+								if (folderName.equalsIgnoreCase("features"))
+									folderName = toolName;
+								else
+									folderName = toolName + "\\" +  folderName;
+								System.out.println("3) We got file names");
+								SubFolderSearch subFld = new SubFolderSearch();
+								String FileList = subFld.findByfolder(folderName);
+								response.setContentType("text/plain");
+								response.getWriter().write(FileList);
+							}else
+							if (toolName != null)
+							{
+								toolName = toolName.trim();
+								System.out.println("toolName "+toolName);
+								System.out.println("2) We got toolName");
+								SubFolderSearch subFld = new SubFolderSearch();
+								String FolderList = subFld.findByfolder(toolName);
+								System.out.println("In Selection Controller..got folder list: "
+										+ FolderList);
+								response.setContentType("text/plain");
+								response.getWriter().write(FolderList);
+							}
+							else
+							
+							if (txtfilePath != null) {
+								System.out.println("1) We got txt File Path: "+txtfilePath);
+								FileUtility fileObj = new FileUtility();
+								String txtfile = fileObj.readFeatureFile(txtfilePath);
+								System.out.println("txtfile: " + txtfile);
+								response.setContentType("text/plain");
+								response.getWriter().write(txtfile);
+							}
+							else
+							
+							if (filenames != null) {
+								filenames= filenames.trim();
+								System.out.println("3) We got file names");
+								String FileList = findByfolder1(filenames);
+								response.setContentType("text/plain");
+								response.getWriter().write(FileList);
+							}
+							break;
+						}
+						case "CreateFileNewUI.jsp":
+						{
+							String toolName = request.getParameter("almToolID");
+							String releaseName = request.getParameter("releaseId");
+							String iterationName = request.getParameter("iterationId");
+							String populateList = request.getParameter("populateList");
+							String operation = request.getParameter("operation");
+							if (toolName != null)
+							{
+									switch(populateList)
+									{
+									
+										case "release":{
+											String relList = tblDAObj.findByTool(toolName, "release");
+											response.setContentType("text/plain");
+											response.getWriter().write(relList);
+											break;
+											}
+									
+										case "iteration":{
+											String itrList = tblDAObj.findByTool(toolName, "iteration");
+											response.setContentType("text/plain");
+											response.getWriter().write(itrList);
+											break;
+											}
+										case "feature":{
+											String featureList = tblDAObj.findByTool(toolName, "feature");
+											response.setContentType("text/plain");
+											response.getWriter().write(featureList);
+											break;
+											}
+									}
+							}
+							else
+							if (releaseName != null)
+							{
+								switch(populateList)
+								{
+									case "iteration":{
+										String itrList = tblDAObj.findByRelease(releaseName, "iteration");
+										response.setContentType("text/plain");
+										response.getWriter().write(itrList);
+										break;
+										}
+									case "feature":{
+										String featureList = tblDAObj.findByRelease(releaseName, "feature");
+										response.setContentType("text/plain");
+										response.getWriter().write(featureList);
+										break;
+										}
+								}
+								
+							}
+							else
+							if (iterationName != null)
+							{
+								String featureList = tblDAObj.findByIteration(iterationName, "iteration");
+								response.setContentType("text/plain");
+								response.getWriter().write(featureList);
+							}
+							else
+							if (operation.equalsIgnoreCase("search"))
+							{
+								toolName = request.getParameter("toolName");
+								releaseName = request.getParameter("releaseName");
+								iterationName = request.getParameter("iterationName");
+								String userstoryName = request.getParameter("userstoryName");
+								if (releaseName.equalsIgnoreCase("All"))
+									releaseName = null;
+								if (iterationName.equalsIgnoreCase("All"))
+									iterationName = null;
+								if (userstoryName.equalsIgnoreCase("All"))
+									userstoryName = null;
+								String featureList = tblDAObj.findByDemandStory(toolName, releaseName, iterationName, userstoryName);
+								response.setContentType("text/plain");
+								response.getWriter().write(featureList);
+							}else
+								if (operation.equalsIgnoreCase("preview"))
+								{
+									String userstoryName = request.getParameter("userstoryName");
+									String featureList = tblDAObj.findByDemandStoryDetails(userstoryName, operation);
+									response.setContentType("text/plain");
+									response.getWriter().write(featureList);
+								}
+							break;
+						}
+						case "Run.jsp":
+						{
+							String foldername = request.getParameter("folderId");
+							if (foldername != null) {
+								foldername = foldername.trim();
+								System.out.println("folderName "+foldername);
+								System.out.println("2) We got foldername");
+								SubFolderSearch subFld = new SubFolderSearch();
+								String FolderList = subFld.findByfolder(foldername);
+								System.out.println("In Selection Controller..got folder list: "
+										+ FolderList);
+								response.setContentType("text/plain");
+								response.getWriter().write(FolderList);
+							}
+							String filenames = request.getParameter("fId1");
+							if (filenames != null) {
+								System.out.println("3) We got file names");
+									String FileList = findByfolder1(filenames);
+									response.setContentType("text/plain");
+									response.getWriter().write(FileList);
+								}
+							String txtfilePath = request.getParameter("txtId");
+							if (txtfilePath != null) {
+								System.out.println("1) We got txt File Path");
+								FileUtility fileObj = new FileUtility();
+	
+								/*String configurablePath = cmrt.m_filePath;
+								System.out.println("configurablePath: " + configurablePath);
+	
+								String resourcesFolder = configurablePath + "\\features\\";
+					*/
+								String txtfile = fileObj.readFeatureFile(txtfilePath);
+								System.out.println("txtfile: " + txtfile);
+								response.setContentType("text/plain");
+								response.getWriter().write(txtfile);
+							}
+	
+							break;
+						}
+						default :
+						{
+							break;
+						}
+					}	
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * This function returns the String with the list of all the sub folders
+	 * separated by ~ for the search path sent as parameter
+	 * 
+	 * @param subFolderName
+	 * @return
+	 * @throws IOException
+	 */
+	public String findByfolder1(String subFolderName) throws IOException {
+		System.out.println("Inside findByfolder of Selection Controller " + subFolderName);
+		subFolderName = subFolderName.trim();
+		Common_Runtime cmrt = new Common_Runtime();
+
+		String configurablePath = cmrt.m_featurePath;
+		System.out.println("configurablePath: " + configurablePath);
+
+		/*String resourcesFolder = configurablePath + "src\\test\\resources\\";
+		System.out.println("resourcesFolder: " + resourcesFolder);*/
+
+		String Mainpath = configurablePath + "\\" + subFolderName;
+		System.out.println("Path written in config file + subfoldername "+ Mainpath);
+		StringBuffer sbf1folder = new StringBuffer();
+		File directory = new File(Mainpath);
+		System.out.println("Directory: " + directory);
+		// String[] extensions = new String[] { "txt", "jsp" };
+		// get all the files from a directory
+		File[] fList = directory.listFiles();
+		System.out.println("Length of files in directory: " + fList.length);
+		for (File file : fList) {
+			if (file.isFile()) {
+				System.out.println(" In IF block..Absolute Path: "
+						+ file.getAbsolutePath());
+				System.out.println(" In IF block..FileName: " + file.getName());
+				sbf1folder.append(file.getName() + "~");
+			} else if (file.isDirectory()) {
+				System.out.println(" In ELSE block.. FileName: "
+						+ file.getName());
+				sbf1folder.append(file.getName() + "~");
+			}
+		}
+		System.out.println("This is given back to SelectionControllerServlet: "
+				+ sbf1folder.toString());
+		return sbf1folder.toString();
+	}
+}

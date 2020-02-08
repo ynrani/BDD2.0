@@ -1,0 +1,171 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Sample Serenity Cucumber project 0.0.1-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ SerenityOptikPOC ---
+[INFO] Deleting D:\SVN\CSS_BDD\WebContent\BDD\SerenityOptikPOC\target
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4:enforce (enforce) @ SerenityOptikPOC ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ SerenityOptikPOC ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory D:\SVN\CSS_BDD\WebContent\BDD\SerenityOptikPOC\src\main\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:compile (default-compile) @ SerenityOptikPOC ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ SerenityOptikPOC ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 4 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:testCompile (default-testCompile) @ SerenityOptikPOC ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 7 source files to D:\SVN\CSS_BDD\WebContent\BDD\SerenityOptikPOC\target\test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.18:test (default-test) @ SerenityOptikPOC ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ SerenityOptikPOC ---
+[WARNING] JAR will be empty - no content was marked for inclusion!
+[INFO] Building jar: D:\SVN\CSS_BDD\WebContent\BDD\SerenityOptikPOC\target\SerenityOptikPOC-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.18:integration-test (default) @ SerenityOptikPOC ---
+[INFO] Failsafe report directory: D:\SVN\CSS_BDD\WebContent\BDD\SerenityOptikPOC\target\failsafe-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running net.serenity.cucumber.InvoiceToMember
+
+2 Scenarios ([32m2 passed[0m)
+4 Steps ([32m4 passed[0m)
+0m0.448s
+
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.36 sec - in net.serenity.cucumber.InvoiceToMember
+Running net.serenity.cucumber.LoginToCyclos
+
+1 Scenarios ([32m1 passed[0m)
+3 Steps ([32m3 passed[0m)
+0m0.016s
+
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.217 sec - in net.serenity.cucumber.LoginToCyclos
+Running net.serenity.cucumber.MemberPaymentImmediately
+
+2 Scenarios ([32m2 passed[0m)
+3 Steps ([32m3 passed[0m)
+0m26.252s
+
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 31.717 sec - in net.serenity.cucumber.MemberPaymentImmediately
+Running net.serenity.cucumber.MessageToMember
+
+2 Scenarios ([32m2 passed[0m)
+3 Steps ([32m3 passed[0m)
+0m0.018s
+
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.808 sec - in net.serenity.cucumber.MessageToMember
+Java HotSpot(TM) Client VM warning: ignoring option MaxPermSize=256m; support was removed in 8.0
+
+Results :
+
+
+
+
+Tests run: 20, Failures: 0, Errors: 0, Skipped: 0
+
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] 
+[INFO] --- serenity-maven-plugin:1.0.50:aggregate (serenity-reports) @ SerenityOptikPOC ---
+[INFO] LOADING LOCAL PROPERTIES FROM D:\SVN\CSS_BDD\WebContent\BDD\SerenityOptikPOC\serenity.properties 
+[INFO] webdriver.driver=chrome
+[INFO] webdriver.chrome.driver=D:\WebDriver\chromedriver.exe
+[INFO] serenity.outputDirectory=target
+[INFO] LOADING LOCAL PROPERTIES FROM D:\SVN\CSS_BDD\WebContent\BDD\SerenityOptikPOC\serenity.properties 
+[INFO] Reading requirements from net.thucydides.core.requirements.FileSystemRequirementsTagProvider@14cd86c
+[INFO] Requirement ancestors for:Requirement{name='Invoice to member', type='capability' parent = 'null', cardNumber='null'} = [Requirement{name='Invoice to member', type='capability' parent = 'null', cardNumber='null'}]
+[INFO] Requirement ancestors for:Requirement{name='Invoice to member', type='feature' parent = 'Invoice to member', cardNumber='null'} = [Requirement{name='Invoice to member', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Invoice to member', type='feature' parent = 'Invoice to member', cardNumber='null'}]
+[INFO] Requirement ancestors for:Requirement{name='Login to cyclos', type='capability' parent = 'null', cardNumber='null'} = [Requirement{name='Login to cyclos', type='capability' parent = 'null', cardNumber='null'}]
+[INFO] Requirement ancestors for:Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'} = [Requirement{name='Login to cyclos', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'}]
+[INFO] Requirement ancestors for:Requirement{name='Member payment immediately', type='capability' parent = 'null', cardNumber='null'} = [Requirement{name='Member payment immediately', type='capability' parent = 'null', cardNumber='null'}]
+[INFO] Requirement ancestors for:Requirement{name='Member payment immediately', type='feature' parent = 'Member payment immediately', cardNumber='null'} = [Requirement{name='Member payment immediately', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Member payment immediately', type='feature' parent = 'Member payment immediately', cardNumber='null'}]
+[INFO] Requirement ancestors for:Requirement{name='Message to member', type='capability' parent = 'null', cardNumber='null'} = [Requirement{name='Message to member', type='capability' parent = 'null', cardNumber='null'}]
+[INFO] Requirement ancestors for:Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'} = [Requirement{name='Message to member', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'}]
+[INFO] Requirements found:[Requirement{name='Invoice to member', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Login to cyclos', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Member payment immediately', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Message to member', type='capability' parent = 'null', cardNumber='null'}]
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+Merging requirements = [Requirement{name='Invoice to member', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Login to cyclos', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Member payment immediately', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Message to member', type='capability' parent = 'null', cardNumber='null'}]
+Merging requirements = []
+Merged requirements set = [Requirement{name='Invoice to member', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Login to cyclos', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Member payment immediately', type='capability' parent = 'null', cardNumber='null'}, Requirement{name='Message to member', type='capability' parent = 'null', cardNumber='null'}]
+[INFO] REPORTS GENERATED IN D:\SVN\CSS_BDD\WebContent\BDD\SerenityOptikPOC\target
+[INFO] REPORT HOME PAGE: D:\SVN\CSS_BDD\WebContent\BDD\SerenityOptikPOC\target\index.html
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Generating release reports for: [Release{label='Release_1'}, Release{label='Release_2'}, Release{label='Release_3'}, Release{label='Release_4'}]
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] Requirement found for test outcome As a user I want to use messages for communication between me and my contact members-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Verify Send message functionality.-[]: Optional.of(Requirement{name='Message to member', type='feature' parent = 'Message to member', cardNumber='null'})
+[INFO] Requirement found for test outcome Cyclos Login functionality.-[]: Optional.of(Requirement{name='Login to cyclos', type='feature' parent = 'Login to cyclos', cardNumber='null'})
+[INFO] 
+[INFO] --- maven-failsafe-plugin:2.18:verify (default) @ SerenityOptikPOC ---
+[INFO] Failsafe report directory: D:\SVN\CSS_BDD\WebContent\BDD\SerenityOptikPOC\target\failsafe-reports
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1:19.148s
+[INFO] Finished at: Thu Jun 23 14:52:57 IST 2016
+[INFO] Final Memory: 28M/68M
+[INFO] ------------------------------------------------------------------------

@@ -1,0 +1,112 @@
+
+
+/*   for displaying sub menus insert record and display record.*/
+
+.dropdownwww .sub-menu {
+    right: 100%;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    margin-top: 6px;
+    
+    
+}
+.dropdownwww li:hover .sub-menu {
+    visibility: visible;
+}
+
+.navigationwww {
+ 
+  position: absolute;
+    right: 0px;
+    width: 215px;
+    padding: 14px;
+    text-shadow:white;
+    z-index: 100; 
+}
+
+
+
+.navigationwww li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  position: relative;
+  font-size: 17px;
+  color: #0000ff;
+  position: relative;
+  z-index: 100;
+}
+
+.navigationwww li a {
+  padding: 10px 15px;
+  font-size: 17px;
+ 
+  
+  outline: 0;
+  font-weight: 400;
+  position: relative;
+  z-index: 100;
+ 
+}
+
+.navigationwww li:hover ul.dropdownwww { 
+	display: block;
+	z-index: 100; 
+	 }
+
+.navigationwww li ul.dropdownwww {
+  
+  display: none;
+  width: 200px;
+  /* background: #00695b; 
+   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  */
+ 
+  background: #006393;
+  padding-top: 0;
+  position: absolute;
+ z-index: 100;
+}
+
+.navigationwww li ul.dropdownwww li {
+  display: block;
+  list-style-type: none;
+  z-index: 100;
+}
+
+.navigationwww li ul.dropdownwww li a {
+  padding: 10px;
+  font-size: 15px;
+  color: #0000ff;
+  display: block;
+  border-bottom: 1px solid #005c4d;
+  font-weight: 400;
+  position: relative;
+  z-index: 100;
+  
+}
+
+.navigationwww li ul.dropdownwww li:last-child a { border-bottom: none; }
+
+.navigationwww li:hover a {
+ /*  background: #00695b; */
+ 
+ background: #006393;
+  color: #ffffff!important;
+ z-index: 100;
+}
+
+.arrow-down {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid white; 
+  position:absolute;
+  
+  top: 18px;
+  right: -5px;
+  content: '';
+  z-index: 100; 
+  text-shadow:#006393; 
+}

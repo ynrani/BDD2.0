@@ -1,0 +1,276 @@
+@CHARSET "ISO-8859-1";
+.two-step-container {
+	position: relative;
+	margin: 25px 0;
+	height: 62px;
+	font-family: 'HelveticaNeueLTStdRoman';
+}
+.two-step-container .step1, .two-step-container .step2, .two-step-container .step1-active, .two-step-container .step2-active{
+	background: url(../images/step-heading-b.png) no-repeat;
+	position: absolute;
+}
+.two-step-container .step1 {
+	width: 37%;
+	height: 62px;
+	background-position: -426px 0px;
+	min-width: 39.3%;
+}
+.two-step-container .step1-active {
+	width: 34.3%;
+	height: 100%;
+	background-position: 0% 0%;
+	min-width: 39.3%;
+}
+.two-step-container .step2 {
+	width: 37%;
+  	height: 100%;
+  	background-position: 100% 100%;  
+  	left: 18%;
+  	min-width: 37%;
+}
+.two-step-container .step2-active {
+	width: 35%;
+	height: 62px;
+	background-position: 0 -176px;
+	left: 18.5%;
+}
+
+.two-step-container  .step-number1 {
+	font-size: 40px;
+	color: #FFF;
+	padding: 7px 15px;
+	float: left;
+}
+.two-step-container  .step-number2 {
+	font-size: 40px;
+	color: #FFF;
+	padding: 7px 15px 7px 55px;
+	float: left;
+}
+
+/* ============================================================================*/
+.four-step-container {
+	position: relative;
+	margin: 25px 0;
+	height: 62px;
+	font-family: 'HelveticaNeueLTStdRoman';
+}
+.four-step-container .step1, .four-step-container .step2, .four-step-container .step3, .four-step-container .step4, .four-step-container .step1-active, .four-step-container .step2-active, .four-step-container .step3-active, .four-step-container .step4-active  {
+	background: url(../images/step-heading-b.png) no-repeat;
+	position: absolute;
+}
+.four-step-container .step1 {
+	width: 21%;
+	height: 62px;
+	background-position: -426px 0px;
+}
+.four-step-container .step1-active {
+	width: 24.3%;
+	height: 100%;
+	background-position: 0% 0%;
+	min-width: 34.3%;
+}
+.four-step-container .step2 {
+	width: 32%;
+  	height: 100%;
+  	background-position: 89% 50%;
+  	left: 18.5%;
+  	min-width: 25%;
+}
+.four-step-container .step2-active {
+	width: 25%;
+	height: 62px;
+	background-position: 0 -88px;
+	left: 34.5%;
+}
+.four-step-container .step3 {
+	width: 35%;
+	height: 100%;
+	background-position: 92% 50%;
+	right: 28%;
+	min-width: 35%;
+}
+.four-step-container .step3-active {
+	width: 24%;
+	height: 62px;
+	background-position: 10px -88px;
+	right: 37%;
+	min-width: 25%;
+	
+}
+
+.four-step-container .step4 {
+	width:38%;
+	height: 62px;
+	background-position: 100% 100%;
+	right: 6%;
+	
+}
+.four-step-container .step4-active {
+	width: 27.3%;
+	height: 100%;
+	background-position: 0 -176px;
+	right: 14%;
+}
+.four-step-container .step-number1 {
+	font-size: 40px;
+	color: #FFF;
+	padding: 7px 15px;
+	float: left;
+}
+.four-step-container .step-number2, .step-number3, .step-number4{
+	font-size: 40px;
+	color: #FFF;
+	padding: 7px 3px 7px 50px;
+	float: left;
+}
+
+
+
+.four-step-container .step4-number4{
+	font-size: 40px;
+	color: #FFF;
+	padding: 2px 1px 7px 50px;
+	float: left;
+}
+
+.four-step-container .step-num4 {
+	font-size: 40px;
+	color: #FFF;
+	padding: 2px 1px 7px 34px;
+	float: left;
+}
+.step-heading {
+	font-size: 20px;
+	color: #FFF;
+	float: left;
+	padding: 19px 0 0;
+}
+.step-heading small {
+	font-size: 16px;
+	font-weight: normal;
+}
+/*========================================================================================================*/
+
+
+.five-step-container {
+	position: relative;
+	margin: 25px 0;
+	height: 62px;
+	font-family: 'HelveticaNeueLTStdRoman';
+}
+.five-step-container .step1, .five-step-container .step2, .five-step-container .step3, .five-step-container .step4, 
+.five-step-container .step5, .five-step-container .step1-active, .five-step-container .step2-active, 
+.five-step-container .step3-active, .five-step-container .step4-active, .five-step-container .step5-active  {
+	background: url(../images/step-heading-b.png) no-repeat;
+	position: absolute;
+}
+.five-step-container .step1 {
+	width: 24%;
+	height: 62px;
+	background-position: -426px 0px;
+}
+.five-step-container .step1-active {
+	width: 24.3%;
+	height: 100%;
+	background-position: 0% 0%;
+	min-width: 34.3%;
+}
+.five-step-container .step2 {
+	width: 33%;
+  	height: 100%;
+  	background-position: 67% 51%;
+  	left: 7%;
+  	min-width: 32%;
+}
+.five-step-container .step2-active {
+	width: 25%;
+	height: 62px;
+	background-position: 0 -88px;
+	left: 34.5%;
+}
+.five-step-container .step3 {
+	width: 25%;
+	height: 100%;
+	background-position: 94% 50%;
+	right: 28%;
+	min-width: 35%;
+}
+.five-step-container .step3-active {
+	width: 42%;
+	height: 62px;
+	background-position: 3px -89px;
+	right: 20%;
+	min-width: 18%;
+}
+
+.five-step-container .step4 {
+	width:29%;
+	height: 62px;
+	right: 20.4%;
+	background-position: 72% 51%;
+	
+}
+.five-step-container .step4-active {
+	width: 22%;
+	height: 100%;
+	background-position:  61px -88px;
+	right: 18%;
+	min-width: 30%;
+}
+
+.five-step-container .step5 {
+	width:24.3%;
+	height: 62px;
+	background-position: 74% 100%;
+	right: 1%;
+	
+}
+
+.five-step-container .step5-active {
+	width: 24.3%;
+	height: 100%;
+	background-position: 11px -176px;
+	right: 0%;
+}
+.five-step-container .step5-number1 {
+	font-size: 40px;
+	color: #FFF;
+	padding: 2px 3px;
+	float: left;
+}
+.five-step-container .step5-number2, .step5-number3, .step5-number4{
+	font-size: 40px;
+	color: #FFF;
+	padding: 2px 3px 7px 50px;
+	float: left;
+}
+
+.five-step-container .step5-number4{
+	font-size: 40px;
+	color: #FFF;
+	padding: 2px 3px 7px 90px;
+	float: left;
+}
+
+
+.five-step-container .step5-number2{
+	font-size: 40px;
+	color: #FFF;
+	padding: 2px 3px 7px 155px;
+	float: left;
+}
+
+.step5-number5{
+	font-size: 40px;
+	color: #FFF;
+	padding: 4px 1px 8px 55px;
+	float: left;
+}
+
+.step5-num5{
+	font-size: 40px;
+	color: #FFF;
+	padding: 4px 1px 8px 45px;
+	float: left;
+}

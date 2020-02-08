@@ -1,0 +1,110 @@
+/******************************************************************************
+ *
+ *      ActionServlet.java
+ *
+ *      Capgemini Confidential
+ *      CG Source Materials
+ *      © Copyright Capgemini 2017
+ *
+ *
+ *******************************************************************************
+ *
+ *   Date....	WHO 	Description...............................................
+ *	09/02/17	NR		First Created
+ *	
+ ******************************************************************************/
+
+package com.cg.bdd.utils;
+
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+
+import com.rallydev.rest.RallyRestApi;
+import com.rallydev.rest.client.ApiKeyClient;
+
+
+public class OnPremRestApi extends RallyRestApi{// implements Closeable {
+
+	private HttpClient client;
+
+	public OnPremRestApi(URI server, String apikey) throws URISyntaxException {
+		super(new ApiKeyClient(server, apikey));
+		RallyRestApi restapi = new RallyRestApi(server, apikey);
+		restapi.setApplicationName("BDD2.0");
+		//restapi.setProxy(new URI("http://myproxy.capgemini.com"), "naboggar", "Kaushi@march25");
+		client = restapi.getClient();
+		try {
+			SSLSocketFactory sf = new SSLSocketFactory(new TrustStrategy() {
+				public boolean isTrusted(X509Certificate[] certificate,
+						String authType) throws CertificateException {
+					// trust all certs
+					return true;
+				}
+			}, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+			client.getConnectionManager().getSchemeRegistry().register(new Scheme("https", 443, sf));
+			
+	/*Added by Venkat*/
+			/*		TrustStrategy easyStrategy = new TrustStrategy() {
+
+		        @Override
+		        public boolean isTrusted(X509Certificate[] certificate, String authType)
+		                throws CertificateException {
+		            return true;
+		        }
+		    };
+			SSLSocketFactory sf = new SSLSocketFactory(easyStrategy,SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+	        SchemeRegistry registry = new SchemeRegistry();
+	        registry.register(new Scheme("https", 8443, sf));
+			 ClientConnectionManager ccm = new ThreadSafeClientConnManager(registry);
+		        client =  new DefaultHttpClient(ccm);*/
+			/*Added by Venkat*/
+			
+			restapi.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+
+
+}
+
+/*public class OnPremRestApi extends RallyRestApi {
+
+	public OnPremRestApi(URI server, String apikey) {
+		super(server, apikey);
+		RallyRestApi restapi = new RallyRestApi(server, apikey);
+		try {
+			SSLSocketFactory sf = new SSLSocketFactory(new TrustStrategy() {
+				public boolean isTrusted(X509Certificate[] certificate,
+						String authType) throws CertificateException {
+					// trust all certs
+					return true;
+				}
+			}, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+
+			HttpClient httpClient = this.getClient();
+			httpClient.getConnectionManager().getSchemeRegistry()
+					.register(new Scheme("https", 443, sf));
+
+			restapi.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}*/

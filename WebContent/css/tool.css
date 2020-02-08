@@ -1,0 +1,77 @@
+body {
+	font-family: 'Arial';
+}
+.client-logo{
+	float: right;
+  padding-top: 25px;
+  padding-left: 0px;
+  margin-right: 20px;
+}
+
+.section {
+}
+
+.section .inner-container {
+	margin-top: 10px;
+	padding: 8px 0px;
+	margin-bottom: 10px;
+	font-size: 14px;
+	vertical-align: middle;
+}
+
+.bold-font {
+	font-weight: bold;
+}
+
+.inner-container table td {
+	padding: 10px 40px 5px 0px;
+}
+
+.label-title span {
+	color: #f00;
+}
+
+.inner-container .radio-group {
+	
+	padding: 10px 40px 10px 0px;
+	border-radius: 4px;
+	  border: 1px solid #ccc;
+}
+input[type="file"]{
+	  border: 1px solid #ccc;;
+	    background: #fff;
+	    border-radius: 4px;
+}
+.btn-primary:hover{
+	background: white;
+	border: 2px solid #0098cc;
+	color: black;
+}
+.btn-primary{
+	 text-align: center;
+	 font-size: 13px;
+}
+/* page 2 table */
+.page2-table, .page2-table th, .page2-table td{
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+	
+	
+}
+.page2-table{
+ border-spacing: 5px;	
+}
+
+.page2-table th, .page2-table td {
+    padding: 15px !important;
+}
+.page2-table tr:nth-child(even) {
+    background-color: #eee;
+}
+.page2-table tr:nth-child(odd) {
+    background-color: white;
+}
+.page2-table th{
+	 background-color: #0098cc;
+}
+

@@ -1,0 +1,25 @@
+<acceptance-test-run title="Verify Sent Invoice functionality for sender and receiver both" name="Verify Sent Invoice functionality for sender and receiver both" description="" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="437" timestamp="2017-03-22T16:48:33.675+05:30">
+  <user-story id="invoice-to-member" name="Invoice_To_Member" path="src/test/resources/features/Invoice_To_Member/Invoice_To_Member.feature"/>
+  <versions>
+    <version>Sprint_5</version>
+    <version>Release_2</version>
+  </versions>
+  <tags>
+    <tag name="Invoice_To_Member" type="feature"/>
+    <tag name="Invoice  to  member/Invoice  to  member" type="story"/>
+    <tag name="Release_2" type="version"/>
+    <tag name="Sprint_5" type="version"/>
+  </tags>
+  <test-step result="SUCCESS" duration="234">
+    <description>Given I send an invoice message for selected contact from contacts list</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="0">
+    <description>And login with beneficiary credential and accept invoice messages</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="0">
+    <description>When I check sender and beneficiary account details</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then Invoice amount should get debited from sender account and credited to beneficiary  account</description>
+  </test-step>
+</acceptance-test-run>

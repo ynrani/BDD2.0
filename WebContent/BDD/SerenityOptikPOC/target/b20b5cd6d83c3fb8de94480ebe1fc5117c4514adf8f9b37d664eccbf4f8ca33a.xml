@@ -1,0 +1,31 @@
+<acceptance-test-run title="Immediate Payment to Registered Contacts" name="Immediate Payment to Registered Contacts" description="" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="15263" timestamp="2017-03-22T16:48:52.638+05:30">
+  <user-story id="member-payment-immediately" name="Member_Payment_Immediately" path="src/test/resources/features/Member_Payment_Immediately/Member_Payment_Immediately.feature"/>
+  <versions>
+    <version>Sprint_1</version>
+    <version>Release_1</version>
+  </versions>
+  <tags>
+    <tag name="Member_Payment_Immediately" type="feature"/>
+    <tag name="Member  payment  immediately/Member  payment  immediately" type="story"/>
+    <tag name="Release_1" type="version"/>
+    <tag name="Sprint_1" type="version"/>
+  </tags>
+  <test-step result="SUCCESS" duration="7523">
+    <screenshots>
+      <screenshot image="401a704caa8d0cf682aac39f7e87ad88_NONE.png"/>
+    </screenshots>
+    <description>Given user is logged in with userid &quot;shashiranjan&quot; and password &quot;Capg1234&quot;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="4212">
+    <screenshots>
+      <screenshot image="c8a4e97450f9a7b6888240bc68758b4e_NONE.png"/>
+    </screenshots>
+    <description>When user selects a member and makes payment</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3356">
+    <screenshots>
+      <screenshot image="ad5c09353dbf9301abf9219e26a25506_NONE.png"/>
+    </screenshots>
+    <description>Then paid amount should reflect in beneficiary account</description>
+  </test-step>
+</acceptance-test-run>

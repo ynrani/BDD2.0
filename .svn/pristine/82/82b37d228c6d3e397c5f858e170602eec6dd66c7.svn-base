@@ -1,0 +1,657 @@
+/******************************************************************************
+ *
+ *      Common_Runtime.java
+ *
+ *      Capgemini Confidential
+ *      CG Source Materials
+ *      © Copyright Capgemini 2017
+ *
+ *
+ *******************************************************************************
+ *
+ *   Date....	WHO 	Description.........................................
+ *	15/02/17	NR		First Created
+ *  13/04/17	NR		Function getScenarios is added
+ *
+ ******************************************************************************/
+package com.cg.bdd.common;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import com.cg.bdd.utils.OnPremRestApi;
+import com.mysql.jdbc.Connection;
+import com.rallydev.rest.RallyRestApi;
+import com.versionone.apiclient.V1Connector;
+import com.versionone.apiclient.exceptions.V1Exception;
+
+
+/**
+ * @author naboggar
+ *
+ */
+
+public class Common_Runtime {
+
+	/**
+	 * Constructor
+	 * 
+	 * @param arg
+	 */
+	public Common_Runtime() {
+
+		try {
+			setupReadProps("config.properties");
+			// connectToDatabase();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Database credentials
+	public String m_jdbcdriver = "";
+	public String m_dbtype = "";
+	public String m_dburl = "";
+
+	public String m_dbuser = "";
+	public String m_dbpassword = "";
+	public String m_dbhost = "";
+	public String m_dbport = "";
+	public String m_dbname = "";
+
+	public String m_rallyurl = "";
+	public String m_rallyuser = "";
+	public String m_rallypassword = "";
+	public String m_rallyapikey = "";
+	public String applicationName = "Find Iterations by Release Dates and Stories";
+	public String m_autPath = "";
+	public String m_autReportsPath = "";
+
+	public RallyRestApi restApi = null;
+	public Connection conn = null;
+	public PreparedStatement stmt = null;
+	// public ResultSet res = null;
+	public ResultSet rs = null;
+	public String mysqlQuery = null;
+
+	public String m_filePath = null;
+	public String m_featurePath = null;
+	
+	public V1Connector v1Connector;
+
+	public void setupReadProps(String propertyFile) throws Exception {
+
+		Properties prop = new Properties();
+		prop.load(Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("config.properties"));
+
+		System.out.println(prop.size());
+
+		// BDDPropertyUtil prop = new BDDPropertyUtil(propertyFile);
+		m_jdbcdriver = prop.getProperty("db.JDBCDriver");
+		m_dbtype = prop.getProperty("db.TYPE");
+		m_dbuser = prop.getProperty("db.USER");
+		m_dbpassword = prop.getProperty("db.PASSWORD");
+		m_dbhost = prop.getProperty("db.HOST");
+		m_dbport = prop.getProperty("db.PORT");
+		m_dbname = prop.getProperty("db.DBNAME");
+		// "jdbc:mysql://in-pnq-coe07:3306/TEST"
+		m_dburl = "jdbc:" + m_dbtype + "://" + m_dbhost + ":" + m_dbport + "/"
+				+ m_dbname;
+
+		m_rallyurl = prop.getProperty("rally.URL");
+		m_rallyuser = prop.getProperty("rally.USER");
+		m_rallypassword = prop.getProperty("rally.PASSWORD");
+		m_rallyapikey = prop.getProperty("rally.APIKEY");
+
+		m_filePath = prop.getProperty("file.PATH");
+		m_featurePath = prop.getProperty("file.FEATUREPATH");
+		m_autPath = prop.getProperty("file.AUTPATH");
+		m_autReportsPath = prop.getProperty("file.AUTREPORTSPATH");
+	}
+
+	/**
+	 * Description : This methods is used to verify whether the given user name
+	 * is administrator and returns true or false
+	 * 
+	 * @param userName
+	 *            - The database user name
+	 * @param password
+	 *            - The database password
+	 * @return boolean - The return value is true or false
+	 * @throws SQLException
+	 */
+	public boolean isAdminUser(String userName) throws SQLException {
+		boolean isAdmin = false;
+		try {
+			connectToDatabase();
+			System.out.println("Connecting to database...");
+			String query = "Select UserType from users where username = '"
+					+ userName + "';";
+			ResultSet res = executeQuery(query);
+			if (res.next()) {
+				String userType = res.getString("UserType");
+				if (userType.equalsIgnoreCase("admin")) {
+					isAdmin = true;
+				}
+			}
+
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			disconnectDatabase();
+		}// end try
+
+		return isAdmin;
+	}
+
+	/**
+	 * Description : This methods is used to verify whether the given user name
+	 * is valid registered user and returns true or false
+	 * 
+	 * @param userName
+	 *            - The database user name
+	 * @param password
+	 *            - The database password
+	 * @return boolean - The return value is true or false
+	 * @throws SQLException
+	 */
+	public boolean isValidUser(String userName) throws SQLException {
+		boolean isUser = false;
+		try {
+			connectToDatabase();
+			// System.out.println("Connecting to database...");
+			String query = "Select * from mysqlbdd.users where UserName = '"
+					+ userName + "';";
+			System.out.println("Query is :" + query);
+			ResultSet res = executeQuery(query);
+			if (res.next()) {
+				String userType = res.getString(4);
+				if (userType.equalsIgnoreCase("user")) {
+					isUser = true;
+				}
+			}
+			// res.close();
+
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			disconnectDatabase();
+		}// end try
+
+		return isUser;
+	}
+
+	/**
+	 * Description : This methods is used to verify whether the given user name
+	 * is valid registered user and returns true or false
+	 * 
+	 * @param userName
+	 *            - The database user name
+	 * @param password
+	 *            - The database password
+	 * @return boolean - The return value is true or false
+	 * @throws SQLException
+	 */
+	public String getUserType(String userName) throws SQLException {
+		String userType = "";
+		try {
+			connectToDatabase();
+			// System.out.println("Connecting to database...");
+			String query = "Select * from mysqlbdd.users where UserName = '"
+					+ userName + "';";
+			System.out.println("Query is :" + query);
+			ResultSet res = executeQuery(query);
+			if (res.next()) {
+				userType = res.getString(4);
+
+			}
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			disconnectDatabase();
+		}// end try
+
+		return userType;
+	}
+
+	/**
+	 * Description: This method is used to establish a connection to Rally
+	 * 
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 */
+	public void connectToRally() throws URISyntaxException, IOException {
+		URI uri = new URI(m_rallyurl);
+
+		restApi = new OnPremRestApi(uri, m_rallyapikey);
+
+		restApi.setApplicationName(applicationName);
+		/*
+		 * String workspaceRef = "/workspace/12345"; GetRequest getRequest = new
+		 * GetRequest(workspaceRef); GetResponse getResponse =
+		 * rallyRestApi.get(getRequest); System.out.println(getResponse.getObject());
+		 */
+		System.out.println("restAPI version " + restApi.getWsapiVersion());
+	}
+
+	/**
+	 * Description: This method is used to disconnect a connection from Rally
+	 */
+	public void disconnectRally() {
+		try {
+			restApi.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Description: This method is used to establish a connection to VersionOne
+	 * 
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 */
+	public void connectToVersionOne() throws URISyntaxException, IOException {
+		try {
+			v1Connector = V1Connector.withInstanceUrl("https://www52.v1host.com/CapgeminiIndiapvtltd").withUserAgentHeader("bdd2.0", "1.0").withAccessToken("1.1zPJfQgMLlXKh0ED3RJh0bd0bVg=").build();
+		//1.1zPJfQgMLlXKh0ED3RJh0bd0bVg=
+			System.out.println("VersionOne: "+v1Connector.toString());
+			} 
+		catch (V1Exception e1) {
+			
+			e1.printStackTrace();
+			}
+	}
+
+	/**
+	 * Description: This method is used to disconnect a connection from VersionOne
+	 */
+	public void disconnectVersionOne() {
+		v1Connector=null;
+	}
+
+	
+	/**
+	 * Description: This method is used to format the date to be able to insert
+	 * into MySQL
+	 * 
+	 * @param myDate
+	 * @return
+	 */
+	public String formatDateTime(String myDate) {
+		myDate = myDate.replace("Z", "000");
+		myDate = myDate.replace("T", " ");
+		return myDate;
+	}
+
+	/**
+	 * Description: This method counts the no. of occurrences of the search
+	 * string within the master string
+	 * 
+	 * @param str
+	 *            : The Master string in which the search string occurrences are
+	 *            counted
+	 * @param searchStr
+	 *            : The string which is used to search for in the master string
+	 * @return integer number with the no. of occurrences of search string in
+	 *         the Master string
+	 */
+	public int getNoOfOccurrences(String str, String searchStr) {
+		int count = 0;
+		String tempStr = str;
+		int ind = tempStr.indexOf(searchStr);
+		while (ind != -1) {
+			count++;
+			tempStr = tempStr.substring(ind + searchStr.length());
+			ind = tempStr.indexOf(searchStr);
+		}
+		return count;
+	}
+
+	/**
+	 * Description: This method is used to connect to the mysql database
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void connectToDatabase() throws ClassNotFoundException, SQLException {
+		Class.forName(m_jdbcdriver);
+		System.out.println("Connecting to database...");
+		conn = (Connection) DriverManager.getConnection(m_dburl, m_dbuser,
+				m_dbpassword);
+		System.out.println(conn.getMetaData());
+		System.out.println("Successfully connected to " + m_dburl
+				+ " using username " + m_dbuser);
+	}
+
+	/**
+	 * Description: This method is used to disconnect from the database
+	 */
+	public void disconnectDatabase() {
+		try {
+			if (stmt != null)
+				stmt.close();
+			if(conn != null)
+			conn.close();
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Description: This method is used to execute any insert or update sql
+	 * query
+	 * 
+	 * @param query
+	 *            : The sql query which will be executed
+	 * @return the integer value returned after executing the query
+	 */
+	public int executeInsertUpdateQuery(String query) {
+		int qs = 0;
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			qs = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		}
+		return qs;
+
+	}
+
+	/**
+	 * Description: This method is used to execute any select sql query
+	 * 
+	 * @param query
+	 *            : The sql query which will be executed
+	 * @return the ResultSet is returned after executing the query
+	 */
+	/*
+	 * public void executeQuery(String query, String param) {
+	 * 
+	 * try{ PreparedStatement stmt = conn.prepareStatement(query);
+	 * stmt.setString(1, param); System.out.println(stmt.toString());
+	 * rs=stmt.executeQuery(); stmt.close(); }catch(SQLException se){ //Handle
+	 * errors for JDBC se.printStackTrace(); }catch(Exception e){ //Handle
+	 * errors for Class.forName e.printStackTrace(); }
+	 * 
+	 * 
+	 * }
+	 */
+	/**
+	 * Description: This method is used to execute any select sql query
+	 * 
+	 * @param query
+	 *            : The sql query which will be executed
+	 * @return the ResultSet is returned after executing the query
+	 */
+	public ResultSet executeQuery(String query, String param) {
+
+		try {
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, param);
+			System.out.println(stmt.toString());
+			rs = stmt.executeQuery();
+			// stmt.close();
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		}
+
+		return rs;
+	}
+
+	/**
+	 * Description: This method is used to execute any select sql query
+	 * 
+	 * @param query
+	 *            : The sql query which will be executed
+	 * 
+	 */
+	public ResultSet executeQuery(String query) {
+		ResultSet res = null;
+		
+		System.out.println(query);
+		try {
+			if (conn == null)
+				connectToDatabase();
+			stmt = conn.prepareStatement(query);
+			res = stmt.executeQuery();
+			//System.out.println(res.getFetchSize());
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	/**
+	 * Description: This function returns the list of scenarios for the specified userstoryid
+	 * @param userStoryID
+	 * @return list of scenarios
+	 */
+	public List<String> getScenarios(String userStoryID) {
+		int i=0;
+		ResultSet res = null;
+		List<String> result = new ArrayList<String>();
+		PreparedStatement stmt1;
+		String query="select ScenarioName, ScenarioDescription from mysqlbdd.scenarios where UserStoryID = \"" + userStoryID + "\";";
+		System.out.println(query);
+		try {
+			if (conn == null)
+				connectToDatabase();
+			stmt1 = conn.prepareStatement(query);
+			res = stmt1.executeQuery();
+			res.last();
+			System.out.println("ResultSet length: "+ res.getRow());
+			res.beforeFirst();
+			
+			while (res.next())
+			{
+				//result[i]=res.getString("ScenarioDescription");
+				System.out.println("Result Name"+ res.getString("ScenarioName") +" Description " + res.getString("ScenarioDescription"));
+				result.add("@"+res.getString("ScenarioName"));
+				result.add(res.getString("ScenarioDescription"));
+				i++;
+			}
+			//System.out.println(res.getFetchSize());
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+		
+		
+	}
+	
+	/**
+	 * Description: This method returns the last inserted record id of the
+	 * particular tablename and column
+	 * 
+	 * @param tableName
+	 *            - The name of the table whose last record id is needed.
+	 * @param columnName
+	 *            - The name of the column
+	 * @return integer value of the last record id from the given table and
+	 *         column
+	 */
+	public int getLastRecordID(String tableName, String columnName) {
+		ResultSet rs = null;
+		int lastRecordID = 0;
+		String selectQuery = "Select max(" + columnName
+				+ ") as lastRecordID from " + tableName + ";";
+		try {
+			if (conn== null)
+				connectToDatabase();
+			PreparedStatement stmt = conn.prepareStatement(selectQuery);
+			rs = stmt.executeQuery();
+		
+			lastRecordID = rs.getInt("lastRecordID");
+			stmt.close();
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		}
+		return lastRecordID;
+	}
+
+	/**
+	 * Description: This method returns the record count of the given table
+	 * 
+	 * @param tableName
+	 *            : The name of the table whose record count is returned
+	 * @return integer number of records in the table
+	 */
+	public int tableRecordCount(String tableName) {
+		int counter = 0;
+		mysqlQuery = "SELECT COUNT(*) AS total FROM mysqlbdd." + tableName;
+		System.out.println("Select Query is " + mysqlQuery);
+		try {
+
+			PreparedStatement stmt = conn.prepareStatement(mysqlQuery);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				counter = rs.getInt("total");
+			}
+			System.out.println("Count of Records matching the query("
+					+ mysqlQuery + "): " + counter);
+			rs.close();
+			stmt.close();
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		}
+
+		return counter;
+	}
+
+	/**
+	 * Description: This method verified whether a particular record is existing
+	 * in the given table name
+	 * 
+	 * @param tableName
+	 *            : The name of the database table
+	 * @param columnName
+	 *            : The name of the database table column
+	 * @param columnValue
+	 *            : The value of the database table column
+	 * @return integer value with the no. of records matching the condition
+	 */
+	public int verifyRecordExists(String tableName, String columnName,
+			String columnValue) {
+
+		int counter = 0;
+		mysqlQuery = "SELECT COUNT(*) AS total FROM mysqlbdd." + tableName
+				+ " where " + columnName + "= '" + columnValue + "';";
+		System.out.println("Select Query is " + mysqlQuery);
+		try {
+
+			if(conn == null)
+				connectToDatabase();
+			//conn.clearWarnings();
+			PreparedStatement stmt = conn.prepareStatement(mysqlQuery);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				counter = rs.getInt("total");
+			}
+			System.out.println("Count of Records matching the query("
+					+ mysqlQuery + "): " + counter);
+			rs.close();
+			stmt.close();
+
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		}
+		return counter;
+	}
+
+	/**
+	 * Description: This method will return the value of the integer column from
+	 * the database table matching the criteria
+	 * 
+	 * @param tableName
+	 *            : The name of the database table
+	 * @param columnName
+	 *            : The name of the column used as criteria
+	 * @param columnValue
+	 *            : The value of the table column used in criteria
+	 * @param outputColumn
+	 *            : The name of the output column whose value should be returned
+	 * @return The integer value of the output column
+	 */
+	public int getIntOutputColumn(String tableName, String columnName,
+			String columnValue, String outputColumn) {
+
+		int id = 0;
+		mysqlQuery = "SELECT " + outputColumn + " as Output FROM mysqlbdd."
+				+ tableName + " where " + columnName + "= '" + columnValue
+				+ "'";
+		System.out.println("Select Query is " + mysqlQuery);
+		try {
+
+			PreparedStatement stmt = conn.prepareStatement(mysqlQuery);
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				id = rs.getInt("Output");
+			}
+			System.out.println("The Output column matching the query("
+					+ mysqlQuery + "): " + id);
+			rs.close();
+
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		}
+		return id;
+	}
+}

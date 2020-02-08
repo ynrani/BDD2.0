@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+<!--[if IE 7]>
+<link rel="stylesheet" href="font-awesome/css/font-awesome-ie7.min.css">
+<![endif]--><!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><!-- Bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script><link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/><!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.10.4/media/jqueryui/dataTables.jqueryui.css" rel="Stylesheet"/>
+<link type="text/css" href="css/tables.css" rel="stylesheet" />
+
+<script type="text/javascript" src="datatables/1.10.4/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="datatables/1.10.4/media/jqueryui/dataTables.jqueryui.min.js"></script>
+    <script class="code" type="text/javascript">$(document).ready(function () {
+
+        // Results table
+        $('#tag-list-table').DataTable( {
+            "order": [
+                [ 1, "asc" ]
+            ],
+            "pageLength": 25
+        } );
+
+        $("test-list").tabs();
+    });
+    </script>
+</head>
+
+<body>
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-bdd-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname"></span>
+        </div>
+    </div>
+</div>
+
+<div class="middlecontent">
+
+    <div id="contenttop">
+        <div class="middlebg">
+            <span class="bluetext"><a href="index.html" class="bluetext">Home</a> 
+                > Versions
+            </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#"><i class="fa fa-check-square-o"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="fa fa-book"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="releases.html"><i class="fa fa-paper-plane"></i> Releases</a>
+        </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="fa fa-comments-o"></i> Capabilities</a>
+        </li>
+        <li >
+            <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="fa fa-comments-o"></i> Features</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 22-03-2017 16:49</span>
+    <br style="clear:left"/>
+</div>
+
+
+
+   <div class="clr"></div>
+    <div id="beforetable"></div>
+    <div id="results-dashboard">
+        <div class="middlb">
+            <div class="table">
+                <table>
+                 <tr>
+                   <td>
+                    <div id="test-list">
+                        <ul>
+                            <li><a href="test-list-1">Versions</a></li>
+                        </ul>
+                    </div>
+                    <div id="test-list-1" class="table">
+                        <div class="test-results">
+                            <table id="tag-list-table">
+                                <thead>
+                                    <tr>
+                                        <th width="30" class="test-results-heading">&nbsp;</th>
+                                        <th width="750" class="test-results-heading">Version</th>
+                                        <th width="70" class="test-results-heading">Tests</th>
+                                        <th width="70" class="test-results-heading">Steps</th>
+                                        <th width="65" class="test-results-heading">Stable</th>
+                                        <th width="65" class="test-results-heading">Duration</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><h3>Release_1</h3></td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+
+
+                                    <tr class="test-SUCCESS">
+                                        <td><img src="images/success.png" title="SUCCESS" class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                                        <td class="SUCCESS-text"><a href="c5ec9332bac351989b040d07c5788faf55d2a94c72bdd47ba154864a88e9cd33.html">Release 1</a></td>
+
+                                        <td class="lightgreentext">1</td>
+                                        <td class="lightgreentext">3</td>
+
+                                        <td class="bluetext">
+                                            <img src="images/traffic-red.gif"  class="summary-icon"/>
+                                            <span style="display:none">1</span>
+                                        </td>
+                                        <td class="lightgreentext">15.263</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><h3>Release_2</h3></td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+
+
+                                    <tr class="test-SUCCESS">
+                                        <td><img src="images/success.png" title="SUCCESS" class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                                        <td class="SUCCESS-text"><a href="7ce26ac62bb3f8cf57aa8bf399052f16cc9057faa4f14bc3a23d8b24483d64ea.html">Release 2</a></td>
+
+                                        <td class="lightgreentext">1</td>
+                                        <td class="lightgreentext">4</td>
+
+                                        <td class="bluetext">
+                                            <img src="images/traffic-red.gif"  class="summary-icon"/>
+                                            <span style="display:none">1</span>
+                                        </td>
+                                        <td class="lightgreentext">0.437</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><h3>Release_3</h3></td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+
+
+                                    <tr class="test-SUCCESS">
+                                        <td><img src="images/success.png" title="SUCCESS" class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                                        <td class="SUCCESS-text"><a href="5b26386c452ab7b7af6778cd052e9cd007b299b6eb2b954e055dff9a689ee227.html">Release 3</a></td>
+
+                                        <td class="lightgreentext">1</td>
+                                        <td class="lightgreentext">3</td>
+
+                                        <td class="bluetext">
+                                            <img src="images/traffic-red.gif"  class="summary-icon"/>
+                                            <span style="display:none">1</span>
+                                        </td>
+                                        <td class="lightgreentext">0.39</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><h3>Release_4</h3></td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+
+
+                                    <tr class="test-SUCCESS">
+                                        <td><img src="images/success.png" title="SUCCESS" class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                                        <td class="SUCCESS-text"><a href="9458b91aeb4b492603dfdee415e68e5c5b6eb012f60b7fd50f28269076e3f49b.html">Release 4</a></td>
+
+                                        <td class="lightgreentext">1</td>
+                                        <td class="lightgreentext">3</td>
+
+                                        <td class="bluetext">
+                                            <img src="images/traffic-red.gif"  class="summary-icon"/>
+                                            <span style="display:none">1</span>
+                                        </td>
+                                        <td class="lightgreentext">10.631</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><h3>Sprint_1</h3></td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+
+
+                                    <tr class="test-SUCCESS">
+                                        <td><img src="images/success.png" title="SUCCESS" class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                                        <td class="SUCCESS-text"><a href="4f531dca3664e9c35c82fa736962af681f3d3df4d7704e943109c381c2140f26.html">Sprint 1</a></td>
+
+                                        <td class="lightgreentext">1</td>
+                                        <td class="lightgreentext">3</td>
+
+                                        <td class="bluetext">
+                                            <img src="images/traffic-red.gif"  class="summary-icon"/>
+                                            <span style="display:none">1</span>
+                                        </td>
+                                        <td class="lightgreentext">15.263</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><h3>Sprint_5</h3></td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+
+
+                                    <tr class="test-SUCCESS">
+                                        <td><img src="images/success.png" title="SUCCESS" class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                                        <td class="SUCCESS-text"><a href="6978dfac624fa53d632febb8ec49ab0f38fe48c08967e29a54edc14d978e7d9d.html">Sprint 5</a></td>
+
+                                        <td class="lightgreentext">1</td>
+                                        <td class="lightgreentext">4</td>
+
+                                        <td class="bluetext">
+                                            <img src="images/traffic-red.gif"  class="summary-icon"/>
+                                            <span style="display:none">1</span>
+                                        </td>
+                                        <td class="lightgreentext">0.437</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><h3>Sprint_8</h3></td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+
+
+                                    <tr class="test-SUCCESS">
+                                        <td><img src="images/success.png" title="SUCCESS" class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                                        <td class="SUCCESS-text"><a href="8db947cd8d9d56cb3764f940ced25276451f62f2b47c8fa9bb0556a05db4855e.html">Sprint 8</a></td>
+
+                                        <td class="lightgreentext">1</td>
+                                        <td class="lightgreentext">3</td>
+
+                                        <td class="bluetext">
+                                            <img src="images/traffic-red.gif"  class="summary-icon"/>
+                                            <span style="display:none">1</span>
+                                        </td>
+                                        <td class="lightgreentext">0.39</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td><h3>Sprint_9</h3></td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+
+
+                                    <tr class="test-SUCCESS">
+                                        <td><img src="images/success.png" title="SUCCESS" class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                                        <td class="SUCCESS-text"><a href="d1f19d94a99a4eee852f63ea2aa1f3226c8a12a267df575e1d5343d9b85119ea.html">Sprint 9</a></td>
+
+                                        <td class="lightgreentext">1</td>
+                                        <td class="lightgreentext">3</td>
+
+                                        <td class="bluetext">
+                                            <img src="images/traffic-red.gif"  class="summary-icon"/>
+                                            <span style="display:none">1</span>
+                                        </td>
+                                        <td class="lightgreentext">10.631</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                   </td>
+                  </tr>
+                 </table>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="beforefooter"></div>
+<div id="bottomfooter"></div>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<acceptance-test-run title="Login and check Optik Menu Items" name="Login and check Optik Menu Items" description="" steps="12" successful="12" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="28655" timestamp="2015-10-01T17:18:01.884+05:30">
+  <user-story id="optik-command-menu" name="Optik Command Menu" path="src/test/resources/features/OptikMenuItems/OptikMenuAccess.feature"/>
+  <versions>
+    <version>Sprint-1</version>
+    <version>Release-1</version>
+  </versions>
+  <tags>
+    <tag name="Optik Command Menu" type="feature"/>
+    <tag name="Release-1" type="version"/>
+    <tag name="Sprint-1" type="version"/>
+  </tags>
+  <test-group name="Given OPTIK application is running" result="SUCCESS">
+    <screenshots>
+      <screenshot image="ed10adc2bacecd32ff844ead9dde8920_NONE.png"/>
+    </screenshots>
+    <test-step result="SUCCESS" duration="11878">
+      <screenshots>
+        <screenshot image="2ac9bddad3d10499bb32e2572211f94c_MEDIUM.png"/>
+      </screenshots>
+      <description>Opens optik home page</description>
+    </test-step>
+  </test-group>
+  <test-group name="When user login with UserID &quot;shashi&quot; and Password &quot;Shashi1234!&quot;" result="SUCCESS">
+    <screenshots>
+      <screenshot image="ed10adc2bacecd32ff844ead9dde8920_NONE.png"/>
+    </screenshots>
+    <test-step result="SUCCESS" duration="3392">
+      <screenshots>
+        <screenshot image="3b72819892eba6db04c8143db0383c4b_NONE.png"/>
+      </screenshots>
+      <description>Login  optik: &lt;span class=&apos;step-parameter&apos;&gt;shashi, Shashi1234!&lt;/span&gt;</description>
+    </test-step>
+    <test-step result="SUCCESS" duration="2547">
+      <screenshots>
+        <screenshot image="3b72819892eba6db04c8143db0383c4b_NONE.png"/>
+        <screenshot image="919763d9f29a7b39f5a8b1a9ece1e97f_NONE.png"/>
+      </screenshots>
+      <description>Login  submit</description>
+    </test-step>
+  </test-group>
+  <test-step result="SUCCESS" duration="1419">
+    <screenshots>
+      <screenshot image="919763d9f29a7b39f5a8b1a9ece1e97f_NONE.png"/>
+      <screenshot image="dc6e498b7c3a67287e5922fbdb49e551_NONE.png"/>
+    </screenshots>
+    <description>Then user should able to download Recorder</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="535">
+    <screenshots>
+      <screenshot image="92e5b6e0a090f8ce563b4991707b4f1a_NONE.png"/>
+    </screenshots>
+    <description>And Click on Excel Utils</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="761">
+    <screenshots>
+      <screenshot image="0852f836d5ef1b87dd56e7e9a0e8c403_NONE.png"/>
+    </screenshots>
+    <description>And Click on Function Exececution</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="834">
+    <screenshots>
+      <screenshot image="bc0507f90d5e5d38ae0faf6a74f75e13_NONE.png"/>
+      <screenshot image="08e8df1fe9bed5edb3efa3bac8894d35_NONE.png"/>
+    </screenshots>
+    <description>And Click on UI Execution</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="703">
+    <screenshots>
+      <screenshot image="8285583cf40f405cecc68106eb9db298_NONE.png"/>
+    </screenshots>
+    <description>And Click on Functional UI Execution</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="779">
+    <screenshots>
+      <screenshot image="1376115572473844260a6d4a6f52c360_NONE.png"/>
+      <screenshot image="4bfb80991d5d07ff55410b2e1452a7cd_NONE.png"/>
+    </screenshots>
+    <description>And Click on Dashboard</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="907">
+    <screenshots>
+      <screenshot image="6b5fb3e609b47da1f5cb2af36a8752dd_NONE.png"/>
+    </screenshots>
+    <description>And Click on Settings</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="999">
+    <screenshots>
+      <screenshot image="177a642daecee12c3e032a1903b0423c_NONE.png"/>
+    </screenshots>
+    <description>And Click on Help</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1453">
+    <screenshots>
+      <screenshot image="ed10adc2bacecd32ff844ead9dde8920_NONE.png"/>
+    </screenshots>
+    <description>And then Logout</description>
+  </test-step>
+</acceptance-test-run>

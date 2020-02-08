@@ -1,0 +1,7 @@
+net\serenity\cucumber\InvoiceToMember.class
+net\serenity\cucumber\LoginToCyclos.class
+net\serenity\cucumber\steps\serenity\MyFeatureEndUserSteps.class
+net\serenity\cucumber\pages\CyclosHomePage.class
+net\serenity\cucumber\MessageToMember.class
+net\serenity\cucumber\steps\CyclosLoginSteps.class
+net\serenity\cucumber\MemberPaymentImmediately.class

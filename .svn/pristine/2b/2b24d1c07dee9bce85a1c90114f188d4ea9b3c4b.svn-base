@@ -1,0 +1,547 @@
+/******************************************************************************
+ *
+ *      RallyIntegration.java
+ *
+ *      Capgemini Confidential
+ *      CG Source Materials
+ *      © Copyright Capgemini 2017
+ *
+ *
+ *******************************************************************************
+ *
+ *   Date....	WHO 	Description...............................................
+ *	09/02/17	NR		Modified the code to connect to the new database(mysqlbdd)
+ *  07/03/17    NR		Modified the code to fetch the Rally user details from the database
+ *  04/04/17	NR		Modified the code to change the logic for scenarios update and insert
+ *	
+ ******************************************************************************/
+
+package com.cg.bdd.main;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.cg.bdd.common.Common_Runtime;
+import com.cg.bdd.utils.OnPremRestApi;
+import com.google.gson.JsonObject;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.rallydev.rest.RallyRestApi;
+import com.rallydev.rest.request.QueryRequest;
+import com.rallydev.rest.response.QueryResponse;
+import com.rallydev.rest.util.Fetch;
+import com.rallydev.rest.util.QueryFilter;
+
+/**
+ * @author naboggar
+ */
+
+public class RallyIntegration extends Common_Runtime {
+	
+	public static Connection conn = null;
+	public static PreparedStatement stmt = null;
+	public static String mysqlQuery = null;
+
+	// Rally Details
+	public static RallyRestApi rallyRestApi = null;
+	public static URI uri = null;
+	public static  String host = "";
+	public static  String username = "";
+	public static  String password = "";
+	public static  String projectRef = "";
+	public static  String apikey = "";
+
+	public static String applicationName = "Find Iterations by Release Dates and Stories";
+
+	// JsonObjects to be created
+	public static JsonObject releaseJsonObject;
+	public static JsonObject iterationJsonObject;
+	public static JsonObject storyJsonObject;
+	// Release objects
+	public static QueryRequest releaseRequest;
+	public static QueryResponse releaseQueryResponse;
+	// Iteration objects
+	public static QueryRequest iterationRequest;
+	public static QueryResponse iterationQueryResponse;
+	// UserStory objects
+	public static QueryRequest storyRequest;
+	public static QueryResponse storyQueryResponse;
+	public Common_Runtime cmrt=null;
+	/**
+	 * Default constructor
+	 * 
+	 */
+
+	public RallyIntegration(String toolName) {
+		try {
+			populateRallyConnectionStringVariables(toolName);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Description: This method is used to populate the Rally connection string variables from the database
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void populateRallyConnectionStringVariables(String toolName) throws ClassNotFoundException, SQLException
+	{	
+		cmrt=new Common_Runtime();
+		cmrt.connectToDatabase();
+		String query = "SELECT * from almtool where ToolName='" + toolName + "'";
+		ResultSet rs = cmrt.executeQuery(query);
+		if (rs.next())
+		{
+			
+			host = rs.getString("ToolURL");
+			apikey = rs.getString("APIKey");
+			username = rs.getString("ToolUserName");
+			password = rs.getString("ToolPassword");
+			projectRef = rs.getString("ProjectReference");
+		}
+		rs.close();
+	}
+
+	/**
+	 * Description: This method is used for refreshing the Data
+	 * 
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void refreshData() throws URISyntaxException, IOException, ClassNotFoundException, SQLException {
+		connectToRally();
+		fetchReleaseDetails();
+		disconnectRally();
+	}
+
+	/**
+	 * Description: This method is used to establish a connection to Rally
+	 * 
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 */
+	public void connectToRally() throws URISyntaxException, IOException {
+		
+		uri = new URI(host);
+		rallyRestApi = new OnPremRestApi(uri, apikey);
+		rallyRestApi.setApplicationName("BDD2.0");
+		System.out.println("restAPI version " + rallyRestApi.getWsapiVersion());
+	}
+
+	/**
+	 * Description: This method is used to disconnect a connection to Rally
+	 */
+	public void disconnectRally() {
+		try {
+			rallyRestApi.close();
+			cmrt.disconnectDatabase();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Description: This method is used to format the date to be able to insert
+	 * into MySQL
+	 * 
+	 * @param myDate
+	 * @return
+	 */
+	public String formatDateTime(String myDate) {
+		myDate = myDate.replace("Z", "000");
+		myDate = myDate.replace("T", " ");
+		return myDate;
+	}
+
+	/**
+	 * Description: This method is used to fetch the Release level details from
+	 * Rally and store into the mysql database. If the record is already
+	 * existing, the update of the record is done.
+	 * 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public void fetchReleaseDetails() throws IOException,
+			ClassNotFoundException, SQLException {
+		System.out.println("In FetchReleaseDetails");
+
+		releaseRequest = new QueryRequest("Release");
+		System.out.println("After QueryRequest initialization");
+		releaseRequest.setFetch(new Fetch("ReleaseStartDate", "ReleaseDate",
+				"Name"));
+		System.out.println("AFter setFetch Method");
+		releaseRequest.setScopedDown(false);
+		releaseRequest.setScopedUp(false);
+		releaseRequest.setProject(projectRef);
+		System.out.println("Project Name "+releaseRequest.getProject());
+		System.out.println("AFter setting the project reference");
+		System.out.println(rallyRestApi.toString());
+		
+		releaseQueryResponse = rallyRestApi.query(releaseRequest);
+		//System.out.println("Reached Here Release " + releaseRequest.toString());
+
+		int numberOfReleasesInProject = releaseQueryResponse.getTotalResultCount();
+		System.out.println("No. of releases in the project "
+				+ numberOfReleasesInProject); // number of Release count
+
+		for (int releaseIterator = 0; releaseIterator < numberOfReleasesInProject; releaseIterator++) {
+			System.out.println("Release Number " + releaseIterator);
+			System.out.println("------------------");
+			releaseJsonObject = releaseQueryResponse.getResults()
+					.get(releaseIterator).getAsJsonObject();
+			System.out.println(releaseJsonObject.toString());
+			System.out.println("ReleaseStartDate : "
+					+ releaseJsonObject.get("ReleaseStartDate"));
+			System.out.println("ReleaseEndDate : "
+					+ releaseJsonObject.get("ReleaseDate"));
+			System.out
+					.println("ReleaseName : " + releaseJsonObject.get("Name"));
+			String releaseName = releaseJsonObject.get("Name").toString();
+			String releaseStartDate = releaseJsonObject.get("ReleaseStartDate")
+					.getAsString();
+			String releaseEndDate = releaseJsonObject.get("ReleaseDate")
+					.getAsString();
+			String formattedReleaseStartDate = formatDateTime(releaseStartDate);
+			String formattedReleaseEndDate = formatDateTime(releaseEndDate);
+			System.out.println("Name " + releaseName);
+			System.out.println("StartDate " + formattedReleaseStartDate);
+			System.out.println("EndDate " + formattedReleaseEndDate);
+			int cnt = 0;
+			releaseName = releaseName.replace("\"", "");
+			System.out.println("ReleaseName :" + releaseName);
+			cnt = verifyRecordExists("bddrelease", "ReleaseName", releaseName);
+			System.out.println("No. of records matching with release Name "
+					+ releaseName + " are : " + cnt);
+			int releaseID = 0;
+
+			if (cnt <= 0) // Insert query is executed when the no. of matches
+							// for the record existence returned less than or
+							// equal to zero
+			{
+				//releaseID = getLastRecordID("mysqlbdd.bddrelease", "ReleaseID") + 1;
+
+				StringBuffer insertQuery = new StringBuffer("insert into mysqlbdd.bddrelease (ReleaseName, ToolID, ReleaseStartDate, ReleaseEndDate) values (");
+				insertQuery.append("'" + releaseName + "'").append("'" + 1 + "',").append("'" + formattedReleaseStartDate + "',");
+				insertQuery.append( "'" + formattedReleaseEndDate + "')");
+			/*	String insertQuery = "insert into mysqlbdd.bddrelease (ReleaseName, ToolID, ReleaseStartDate, ReleaseEndDate) values (";
+						//+ releaseID + ",";
+				insertQuery += "\"" + releaseName + "\",";
+				insertQuery += "\"" + 1 + "\",";
+				insertQuery += "\"" + formattedReleaseStartDate + "\",";
+				insertQuery += "\"" + formattedReleaseEndDate + "\");";*/
+				System.out.println("Query is " + insertQuery);
+				System.out.println("Insert Query Output : "
+						+ executeInsertUpdateQuery(insertQuery.toString()));
+				releaseID = getIntOutputColumn("bddrelease", "ReleaseName",
+						releaseName, "releaseID");
+			} else // Update query is executed when the no. of matches for the
+					// record existence returned more than zero
+			{
+				System.out
+						.println("Record already exists, Updating the columns");
+				releaseID = getIntOutputColumn("bddrelease", "ReleaseName",
+						releaseName, "releaseID");
+				String updateQuery = "update mysqlbdd.bddrelease set ";
+				updateQuery += "ReleaseName = \"" + releaseName + "\",";
+				updateQuery += "ReleaseStartDate = \""
+						+ formattedReleaseStartDate + "\",";
+				updateQuery += "ReleaseStartDate = \""
+						+ formattedReleaseEndDate + "\" ";
+				updateQuery += "where ReleaseID = " + releaseID + ";";
+				System.out.println("Query is " + updateQuery);
+				System.out.println("Update Query Output : "
+						+ executeInsertUpdateQuery(updateQuery));
+			}
+			fetchIterationDetails(releaseID, releaseStartDate, releaseEndDate);
+		}
+	}
+
+	/**
+	 * Description: This method is used to fetch the Iteration details using the
+	 * release ID, release start and end dates. After fetching the iteration
+	 * details, they are stored in the mysql database. If the record is
+	 * existing, it will be updated.
+	 * 
+	 * @param releaseID
+	 * @param releaseStartDate
+	 * @param releaseEndDate
+	 * @throws IOException
+	 */
+	public void fetchIterationDetails(int releaseID, String releaseStartDate,
+			String releaseEndDate) throws IOException {
+		iterationRequest = new QueryRequest("Iteration");
+		iterationRequest.setFetch(new Fetch("Name", "StartDate", "EndDate"));
+		iterationRequest.setScopedDown(false);
+		iterationRequest.setScopedUp(false);
+		iterationRequest.setProject(projectRef);
+		iterationRequest.setQueryFilter(new QueryFilter("StartDate", ">=",
+				releaseStartDate).and(new QueryFilter("EndDate", "<=",
+				releaseEndDate)));
+
+		iterationQueryResponse = rallyRestApi.query(iterationRequest);
+		int numberOfIteraitons = iterationQueryResponse.getTotalResultCount();
+		System.out.println("numberOfIteraitons " + numberOfIteraitons);// number
+																		// of
+																		// Iteration/Sprint
+																		// count
+
+		if (numberOfIteraitons >= 0) {
+			for (int iterator = 0; iterator < numberOfIteraitons; iterator++) {
+				iterationJsonObject = iterationQueryResponse.getResults()
+						.get(iterator).getAsJsonObject();
+				System.out.println(iterationJsonObject.toString());
+				String iterationName = iterationJsonObject.get("Name")
+						.getAsString().replace("\"", "");
+				String startDate = iterationJsonObject.get("StartDate")
+						.getAsString().replace("\"", "");
+				String endDate = iterationJsonObject.get("EndDate")
+						.getAsString().replace("\"", "");
+				System.out.println("iteration: " + iterationName);
+
+				String formattedStartDate = formatDateTime(startDate);
+				String formattedEndDate = formatDateTime(endDate);
+
+				int cnt = 0;
+				cnt = verifyRecordExists("iteration", "IterationName",
+						iterationName);
+				System.out
+						.println("No. of records matching with Iteration Name "
+								+ iterationName + " are : " + cnt);
+				// build the query properly.
+				int iterationID = 0;
+				if (cnt <= 0) {
+					//iterationID = getLastRecordID("iteration", "IterationID");
+					String insertQuery = "insert into iteration (IterationName, IterationStartDate, IterationEndDate, ReleaseID) values (";
+							//+ iterationID + ",";
+					insertQuery += "\"" + iterationName + "\",";
+					insertQuery += "\"" + formattedStartDate + "\",";
+					insertQuery += "\"" + formattedEndDate + "\",";
+					insertQuery += releaseID + ");";
+					System.out.println("Query is " + insertQuery);
+					System.out.println("Insert Query Output : "
+							+ executeInsertUpdateQuery(insertQuery));
+					iterationID = getIntOutputColumn("iteration",
+							"IterationName", iterationName, "IterationID");
+				} else {
+					System.out
+							.println("Record already exists, Updating the columns");
+					iterationID = getIntOutputColumn("iteration",
+							"IterationName", iterationName, "IterationID");
+					String updateQuery = "update mysqlbdd.iteration set ";
+					updateQuery += "IterationName = \"" + iterationName
+							+ "\", ";
+					updateQuery += "IterationStartDate = \""
+							+ formattedStartDate + "\", ";
+					updateQuery += "IterationEndDate = \"" + formattedEndDate
+							+ "\" ";
+					updateQuery += "where IterationID = " + iterationID + ";";
+					System.out.println("Query is " + updateQuery);
+					System.out.println("Update Query Output : "
+							+ executeInsertUpdateQuery(updateQuery));
+				}
+				fetchUserStory(iterationID, iterationName);
+			}
+
+		}
+
+	}
+
+	/**
+	 * Description: This method is used to fetch the UserStory details based on
+	 * the Iteration ID and Name. After fetching the User story details, they
+	 * are stored in the mysql database. If the record already exists, it will
+	 * be updated.
+	 * 
+	 * @param iterationID
+	 *            : The Iteration ID whose user stories are pulled from the tool
+	 * @param iterationName
+	 *            : The Iteration Name corresponding to the iteration ID
+	 * @throws IOException
+	 */
+	public void fetchUserStory(int iterationID, String iterationName)
+			throws IOException {
+		storyRequest = new QueryRequest("HierarchicalRequirement");
+		storyRequest.setProject(projectRef);
+		storyRequest.setFetch(new Fetch(new String[] { "Name", "FormattedID",
+				"ScheduleState", "Description" }));
+		storyRequest.setLimit(1000);
+		storyRequest.setScopedDown(false);
+		storyRequest.setScopedUp(false);
+		storyRequest.setQueryFilter(new QueryFilter("Iteration.Name", "=",
+				iterationName));
+		QueryResponse storyQueryResponse = rallyRestApi.query(storyRequest); // number
+																		// of
+																		// story
+																		// count
+		System.out.println("Number of stories in " + iterationName + " :"
+				+ storyQueryResponse.getTotalResultCount());
+
+		for (int storyIterator = 0; storyIterator < storyQueryResponse
+				.getResults().size(); storyIterator++) {
+			JsonObject storyJsonObject = storyQueryResponse.getResults()
+					.get(storyIterator).getAsJsonObject();
+			System.out.println("UserStory JSON object is : "
+					+ storyJsonObject.toString());
+			System.out.println("Name: " + storyJsonObject.get("Name")
+					+ " FormattedID: " + storyJsonObject.get("FormattedID")
+					+ " ScheduleState: " + storyJsonObject.get("ScheduleState")
+					+ " DESCRIPTION: " + storyJsonObject.get("Description"));
+
+			String userStoryID = storyJsonObject.get("FormattedID").toString()
+					.replace("\"", "");
+			String userStoryName = storyJsonObject.get("Name").toString()
+					.replace("\"", "");
+			String userStoryDescription = storyJsonObject.get("Description")
+					.toString().replace("\"", "");
+			userStoryDescription = userStoryDescription.replaceAll("<div>", "");
+			userStoryDescription = userStoryDescription.replaceAll("</div>", "");
+			userStoryDescription = userStoryDescription.replaceAll("<br /", "");
+			userStoryDescription = userStoryDescription.replaceAll("&nbsp;", "");
+			userStoryDescription = userStoryDescription.replaceAll("@pendin", "");
+			userStoryDescription = userStoryDescription.replaceAll("@pending", "");
+			String splitUserStoryDescription = getUserStoryDescription(userStoryDescription);
+			String userStoryState = storyJsonObject.get("ScheduleState")
+					.toString().replace("\"", "");
+
+			int cnt = 0;
+			cnt = verifyRecordExists("userstory", "UserStoryID", userStoryID);
+			System.out.println("No. of records matching with UserStoryID "
+					+ userStoryID + " are : " + cnt);
+
+			// build the query properly.
+			if (cnt <= 0) {
+				String insertQuery = "insert into mysqlbdd.userstory (UserStoryID, UserStoryName, UserStoryDescription, EstimatedEffort, UserStoryState , IterationID) values (";
+				insertQuery += "\"" + userStoryID + "\",";
+				insertQuery += "\"" + userStoryName + "\",";
+				insertQuery += "\"" + splitUserStoryDescription + "\",";
+				insertQuery += +0 + ",";
+				insertQuery += "\"" + userStoryState + "\",";
+				insertQuery += iterationID + ");";
+				System.out.println("Query is " + insertQuery);
+				System.out.println("Insert Query Output : "
+						+ executeInsertUpdateQuery(insertQuery));
+				fetchScenarios(userStoryDescription, userStoryID);
+			} else {
+				System.out
+						.println("Record already exists, Updating the columns");
+				String updateQuery = "update mysqlbdd.userstory set ";
+				updateQuery += "UserStoryName = \"" + userStoryName + "\",";
+				updateQuery += "UserStoryDescription = \""
+						+ splitUserStoryDescription + "\",";
+				updateQuery += "UserStoryState = \"" + userStoryState + "\" ";
+				updateQuery += "where UserStoryID = \"" + userStoryID + "\";";
+				System.out.println("Query is " + updateQuery);
+				System.out.println("Insert Query Output : "
+						+ executeInsertUpdateQuery(updateQuery));
+				fetchScenarios(userStoryDescription, userStoryID);
+			}
+		}
+	}
+
+	/**
+	 * Description: This method will separate all the scenarios from the User
+	 * Story Description and insert/update to the database table
+	 * 
+	 * @param userStoryDescription
+	 *            - The user story description along with scenarios
+	 * @param userStoryID
+	 *            - The user story id for which scenarios are separated from
+	 */
+	public void fetchScenarios(String userStoryDescription, String userStoryID) {
+
+		/*userStoryDescription = storyJsonObject.get("Description").toString()
+				.replace("\"", "").replaceAll("<div>", "")
+				.replaceAll("</div>", "");*/
+		userStoryDescription = userStoryDescription
+				.replace("\"", "").replaceAll("<div>", "")
+				.replaceAll("</div>", "");
+		String[] scenarios = getScenario(userStoryDescription);
+		int cnt = scenarios.length;
+		String scenarioName = "";
+		String scenarioDescription = "";
+		for (int i = 0; i < cnt; i++) {
+			int endIndex = scenarios[i].indexOf("Given");
+			int beginIndex = scenarios[i].indexOf("Scenario:");
+			scenarioName = scenarios[i].substring(beginIndex + 9, endIndex - 1);
+			System.out.println("Scenario Name: " + scenarioName);
+			scenarioDescription = scenarios[i].substring(endIndex);
+			System.out.println("Scenario Description: " + scenarioDescription);
+			//int scenarioID = 0;
+			int matchingRecordCount = verifyRecordExists("scenarios",
+					"ScenarioName", scenarioName);
+			if (matchingRecordCount <= 0) {
+				//scenarioID = getLastRecordID("scenarios", "ScenarioID") + 1;
+				String insertQuery = "insert into scenarios (ScenarioName, ScenarioDescription, UserStoryID) values (";
+				insertQuery += "\"" + scenarioName + "\",";
+				insertQuery += "\"" + scenarioDescription + "\",";
+				insertQuery += "\"" + userStoryID + "\");";
+				System.out.println("Query is " + insertQuery);
+				System.out.println("Insert Query Output : "
+						+ executeInsertUpdateQuery(insertQuery));
+			} else {
+				String insertQuery = "update scenarios set ";
+				insertQuery += "ScenarioDescription = \"" + scenarioDescription
+						+ "\"";
+				insertQuery += " where ScenarioName = \"" + scenarioName + "\";";
+				System.out.println("Query is " + insertQuery);
+				System.out.println("Update Query Output : "
+						+ executeInsertUpdateQuery(insertQuery));
+			}
+		}
+
+	}
+
+	/**
+	 * Description: This method is used to retrieve the user story description
+	 * by separating it from the scenarios.
+	 * 
+	 * @param userStoryDescription
+	 *            : The user story description inclusive of scenarios.
+	 * @return String: The separated user story description
+	 */
+	public String getUserStoryDescription(String userStoryDescription) {
+		int ind = userStoryDescription.indexOf("Scenario:");
+		String userStory = userStoryDescription.substring(0, ind - 1);
+		return userStory;
+	}
+
+	/**
+	 * Description: This method will split the scenarios from the user story
+	 * description
+	 * 
+	 * @param userStoryDescription
+	 *            : The user story description which has the scenarios appended
+	 *            to it.
+	 * @return The string array of the scenarios.
+	 */
+	public String[] getScenario(String userStoryDescription) {
+		String tempUserStoryDescription = userStoryDescription;
+		int ind = userStoryDescription.indexOf("Scenario:");
+		int count = getNoOfOccurrences(userStoryDescription, "Scenario:");
+		String[] scenario = new String[count];
+		int cnt = 0;
+		while (ind != -1) {
+			cnt++;
+			tempUserStoryDescription = tempUserStoryDescription
+					.substring(ind + 9);
+			ind = tempUserStoryDescription.indexOf("Scenario:");
+			if (ind < 0) {
+				scenario[cnt - 1] = tempUserStoryDescription;
+			} else {
+				scenario[cnt - 1] = tempUserStoryDescription.substring(0,
+						ind - 1);
+				tempUserStoryDescription = tempUserStoryDescription
+						.substring(ind);
+			}
+
+		}
+		return scenario;
+	}
+}

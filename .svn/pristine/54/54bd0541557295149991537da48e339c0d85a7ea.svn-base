@@ -1,0 +1,102 @@
+* {
+	margin: 0;
+}
+html, body {
+	height: 100%;
+}
+
+.wrapperForCenterOfthePage {
+	min-height: 100%;
+	margin: 0 auto -118px; /* the bottom margin is the negative value of the footer's height */
+}
+footerDivToStickToBottom, .push {
+	/* '.push' must be the same height as 'footer' */
+	clear: both;
+}
+
+
+
+.footer-distributed{
+	
+	background : linear-gradient(to bottom, #122B5F, #21a1d4);
+
+
+
+
+	
+	background-color: #21a1d4;
+	/* box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12); */
+	
+	box-shadow : 0 -3px 0 #1f97c7 inset, 0 -3px 3px #1f9acc inset, 0 2px 2px #9ad7ef inset, 1px 0 2px #22a4d9 inset, -1px 0 2px #22a4d9 inset, 0 1px 1px rgba(0, 0, 0, 0.1), 0 2px 2px rgba(0, 0, 0, 0.06), 0 3px 3px rgba(0, 0, 0, 0.17), 2px 1px 2px rgba(0, 0, 0, 0.05), -2px 1px 2px rgba(0, 0, 0, 0.05);
+	box-sizing: border-box;
+	width: 100%;
+	text-align: left;
+	font: normal 16px sans-serif;
+
+	
+	margin-top: 0px;
+	position: absolute;
+}
+
+.footer-distributed .footer-left p{
+	color:  #8f9296;
+	font-size: 14px;
+	margin: 0;
+}
+
+/* Footer links */
+
+.footer-distributed p.footer-links{
+	font-size:18px;
+	font-weight: bold;
+	color:  #ffffff;
+	margin: 0 0 10px;
+	padding: 0;
+}
+
+.footer-distributed p.footer-links a{
+	display:inline-block;
+	line-height: 1.8;
+	text-decoration: none;
+	color:  inherit;
+}
+
+.footer-distributed .footer-right{
+	float: right;
+	margin-top: 6px;
+	max-width: 180px;
+}
+
+.footer-distributed .footer-right a{
+	display: inline-block;
+	width: 35px;
+	height: 35px;
+	background-color:  #33383b;
+	border-radius: 2px;
+
+	font-size: 20px;
+	color: #ffffff;
+	text-align: center;
+	line-height: 35px;
+
+	margin-left: 3px;
+}
+
+/* If you don't want the footer to be responsive, remove these media queries */
+
+@media (max-width: 600px) {
+
+	.footer-distributed .footer-left,
+	.footer-distributed .footer-right{
+		text-align: center;
+	}
+
+	.footer-distributed .footer-right{
+		float: none;
+		margin: 0 auto 20px;
+	}
+
+	.footer-distributed .footer-left p.footer-links{
+		line-height: 1.8;
+	}
+}

@@ -1,0 +1,5 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"LoginToCyclos","Cyclos Login functionality.","SUCCESS","2017-03-22T16:48:37.523+05:30","0.0","10.63"
+"Member_Payment_Immediately","Immediate Payment to Registered Contacts","SUCCESS","2017-03-22T16:48:52.638+05:30","0.0","15.26"
+"MessageToMember","Verify Send message functionality.","SUCCESS","2017-03-22T16:49:12.266+05:30","0.0","0.39"
+"Invoice_To_Member","Verify Sent Invoice functionality for sender and receiver both","SUCCESS","2017-03-22T16:48:33.675+05:30","0.0","0.44"

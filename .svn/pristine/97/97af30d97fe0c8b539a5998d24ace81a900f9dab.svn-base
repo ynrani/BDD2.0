@@ -1,0 +1,36 @@
+package net.serenity.cucumber.steps;
+
+import org.openqa.selenium.WebDriver;
+
+
+import static org.junit.Assert.assertEquals;
+import net.thucydides.core.annotations.BlurScreenshots;
+import net.thucydides.core.annotations.Issue;
+
+import net.thucydides.core.annotations.Managed;
+import net.thucydides.core.annotations.Steps;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import net.serenity.cucumber.steps.serenity.MyFeatureEndUserSteps;
+import net.serenitybdd.core.Serenity;
+
+public class <classname> {
+		@Managed(uniqueSession = true;    
+	    @Steps
+
+	    @Given("^<condition>")
+	    public void <givenfunctionname>() throws Throwable {
+	        // Write code here that turns the phrase above into concrete actions
+	    }
+
+	    @When("^<action>")
+	    public void <whenfunctionname>() throws Throwable {
+	        // Write code here that turns the phrase above into concrete actions
+	    }
+
+	    @Then("^<result>")
+	    public void <thenfunctionname>() throws Throwable {
+	        // Write code here that turns the phrase above into concrete actions
+	    }
+}

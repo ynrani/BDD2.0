@@ -1,0 +1,21 @@
+db.TYPE=mysql
+db.USER = bdduser
+db.PASSWORD = bdduser
+db.JDBCDriver = com.mysql.jdbc.Driver
+db.HOST=in-pnq-coe07
+db.PORT=3306
+db.DBNAME=mysqlbdd
+db.PATH = "WebContent/Demand"
+
+rally.USERNAME=maniprakash.venkatesan@capgemini.com
+rally.PASSORD=capgemini123
+rally.URL=http://rally1.rallydev.com
+rally.APIKEY=_E6tNj9QSUyrRtMWR4eshvhmXfR60GPilXHw2zNius
+#############_RNksxSPQSmS5PdPIdYFrr4ozvTdW6USoMRXT9dscw
+#############_80GaC5P6QVyXcuLiXZJ66qZlEj8CJEu7iUFfAr2BwV0
+file.PATH=d:\\BDD
+file.FEATUREPATH=d:\\BDD\\features\\
+#file.AUTPATH = //BDD\\SerenityOptikPOC\\
+#file.AUTREPORTSPATH = //BDD\\SerenityOptikPOC\\target\\
+file.AUTPATH = d:\\Rani\\BDD\\SerenityOptikPOC\\
+file.AUTREPORTSPATH = D:\\Rani\\BDD\\SerenityOptikPOC\\target\\
